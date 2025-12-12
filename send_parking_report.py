@@ -19,7 +19,7 @@ def build_report(spots_map: Dict[str, str]) -> str:
     all_free = all(spots_map.get(spot) == "free" for spot in PARKING_SPOTS)
     header_icon = "✅" if all_free else "❌"
     
-    lines = [f"Сводка по паркингу на {today}: {header_icon}"]
+    lines = [f"Сводка по паркингу на {today}: {header_icon}", ""]
 
     for spot in PARKING_SPOTS:
         status = spots_map.get(spot)
