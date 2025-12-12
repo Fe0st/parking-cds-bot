@@ -11,10 +11,15 @@ from parking_checker import URL, PARKING_SPOTS, parse_numbers_from_page
 def build_report(spots_map: Dict[str, str]) -> str:
     """
     Формируем текст для Telegram: по одному месту в строке, с галочкой/крестиком.
-    В заголовке указываем текущую дату.
+    В заголовке указываем текущую дату и общий статус (✅ если все свободны, ❌ если что-то занято).
     """
     today = datetime.now().strftime("%d.%m.%Y")
-    lines = [f"Сводка по паркингу на {today}:"]
+    
+    # Проверяем, все ли места свободны
+    all_free = all(spots_map.get(spot) == "free" for spot in PARKING_SPOTS)
+    header_icon = "✅" if all_free else "❌"
+    
+    lines = [f"Сводка по паркингу на {today}: {header_icon}"]
 
     for spot in PARKING_SPOTS:
         status = spots_map.get(spot)
