@@ -23,12 +23,17 @@ def build_report(spots_map: Dict[str, str]) -> str:
 
     for spot in PARKING_SPOTS:
         status = spots_map.get(spot)
+        # Место считается свободным ТОЛЬКО если оно явно имеет статус "free"
+        # Если место отсутствует в JSON или имеет другой статус - считаем проданным/занятым
         if status == "free":
             icon = "✅"
             text = "свободно"
         else:
             icon = "❌"
-            text = "занято (или не в списке свободных)"
+            if status is None:
+                text = "продано/занято (не найдено в списке)"
+            else:
+                text = f"продано/занято (статус: {status})"
 
         lines.append(f"Место {spot}: {icon} — {text}")
 
