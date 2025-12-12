@@ -7,8 +7,8 @@ from bs4 import BeautifulSoup
 URL = "https://www.cds.spb.ru/complex/chyornaya-rechka/parking/"
 
 # Номера интересующих парковочных мест
-# Оставляем только нужные: 66, 29, 25, 86 и 6
-PARKING_SPOTS = ["66", "29", "25", "86", "6"]
+# Проверяем: 66, 29, 25, 86, 6, 83, 84, 5, 8
+PARKING_SPOTS = ["66", "29", "25", "86", "6", "83", "84", "5", "8"]
 
 
 def parse_numbers_from_page(html: str) -> dict[str, str]:
