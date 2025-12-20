@@ -8,7 +8,7 @@ URL = "https://www.cds.spb.ru/complex/chyornaya-rechka/parking/"
 
 # Номера интересующих парковочных мест
 # Проверяем: 66, 29, 86, 6, 83, 84, 5, 8
-PARKING_SPOTS = ["66", "29", "86", "6", "83", "84", "5", "8"]
+PARKING_SPOTS = ["66", "86", "83", "84", "5", "6", "8"]
 
 
 def parse_numbers_from_page(html: str) -> dict[str, str]:
