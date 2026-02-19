@@ -121,6 +121,7 @@ def main() -> None:
     app.run_webhook(
         listen="0.0.0.0",
         port=webhook_port,
+        url_path="/webhook",
         secret_token=webhook_secret if webhook_secret else None,
         webhook_url=f"{webhook_url.rstrip('/')}/webhook",
     )
