@@ -24,7 +24,6 @@ BUTTON_CHECK = "Проверить сейчас 🔍"
 MAIN_KEYBOARD = ReplyKeyboardMarkup(
     [[BUTTON_CHECK]],
     resize_keyboard=True,
-    persistent=True,
 )
 
 
