@@ -85,6 +85,20 @@ async def send_daily_report(app: Application) -> None:
         await app.bot.send_message(chat_id=chat_id.strip(), text=text)
 
 
+async def post_init(app: Application) -> None:
+    """Запускает планировщик после старта event loop."""
+    scheduler = AsyncIOScheduler(timezone=MOSCOW_TZ)
+    scheduler.add_job(
+        send_daily_report,
+        trigger="cron",
+        hour=8,
+        minute=0,
+        args=[app],
+    )
+    scheduler.start()
+    app.bot_data["scheduler"] = scheduler
+
+
 def main() -> None:
     token = os.environ.get("TG_BOT_TOKEN")
     webhook_url = os.environ.get("WEBHOOK_URL")  # например: https://example.com/webhook
@@ -98,20 +112,10 @@ def main() -> None:
     if not os.environ.get("TG_CHAT_ID"):
         raise RuntimeError("Не задана переменная окружения TG_CHAT_ID")
 
-    app = Application.builder().token(token).build()
+    app = Application.builder().token(token).post_init(post_init).build()
 
     app.add_handler(CommandHandler("start", cmd_start))
     app.add_handler(MessageHandler(filters.Text([BUTTON_CHECK]), handle_check_button))
-
-    scheduler = AsyncIOScheduler(timezone=MOSCOW_TZ)
-    scheduler.add_job(
-        send_daily_report,
-        trigger="cron",
-        hour=8,
-        minute=0,
-        args=[app],
-    )
-    scheduler.start()
 
     logger.info("Запуск бота с webhook на %s, порт %d", webhook_url, webhook_port)
     app.run_webhook(
